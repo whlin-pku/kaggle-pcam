@@ -92,12 +92,11 @@ def main(model_state_path):
     model = models.resnet50(pretrained=False)
     fc_in_feature = model.fc.in_features
     model.fc = nn.Sequential(
-        nn.Dropout(p=0.2),
-        nn.Linear(fc_in_feature, 512),
-        nn.ReLU(),
-        nn.Dropout(p=0.5),
-        nn.Linear(512, class_num),
-        nn.Softmax(dim=1),
+        nn.Dropout(p=0.6),
+        nn.Linear(fc_in_feature, 512, bias=True),
+        nn.SELU(),
+        nn.Dropout(p=0.8),
+        nn.Linear(512, class_num, bias=True),
     )
     model.load_state_dict(torch.load(model_state_path))
     model.to(device)
