@@ -16,7 +16,8 @@ class Pcam(data.Dataset):
     def __getitem__(self, item):
         x = self.data[item]
         if self.transform is not None:
-            x = self.transform(x)
+            x = self.transform(image=x)
+            x = x['image']
         return x, np.squeeze(self.labels[item])
 
     def __len__(self):
