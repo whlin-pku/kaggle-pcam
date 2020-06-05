@@ -12,6 +12,8 @@ from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
 import matplotlib.pyplot as plt
 import numpy as np
+import albumentations
+from albumentations import pytorch as AT
 
 
 def test(model, testloader, criterion, device, writer, epoch, flag):
@@ -69,12 +71,17 @@ def main(model_state_path):
     print(device)
 
     # define transform
-    transform = transforms.Compose([
-        transforms.ToPILImage(),
-        transforms.Resize(224),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225]),
+    # transform = transforms.Compose([
+    #     transforms.ToPILImage(),
+    #     transforms.Resize(224),
+    #     transforms.ToTensor(),
+    #     transforms.Normalize(mean=[0.485, 0.456, 0.406],
+    #                          std=[0.229, 0.224, 0.225]),
+    # ])
+    transform = albumentations.Compose([
+        albumentations.Resize(224, 224),
+        albumentations.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        AT.ToTensor()
     ])
 
     # load test data
