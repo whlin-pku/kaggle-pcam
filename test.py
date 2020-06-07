@@ -56,10 +56,10 @@ def test(model, testloader, criterion, device, writer, epoch, flag):
 
 
 @click.command()
-@click.option('--model-state-path', default='./checkpoints/epoch6.pth', help='checkpoint path')
+@click.option('--model-state-path', default='./checkpoints/epoch5.pth', help='checkpoint path')
 def main(model_state_path):
     # parameters setting
-    params = {'batch_size': 64, 'shuffle': False, 'num_workers': 1}
+    params = {'batch_size': 16, 'shuffle': False, 'num_workers': 1}
     class_num = 2
 
     # tensorboard setting

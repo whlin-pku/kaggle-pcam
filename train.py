@@ -55,7 +55,6 @@ def main(batch_size, lr, seed, save_model, log_interval):
     # params setting
     params = {'batch_size': batch_size, 'shuffle': True, 'num_workers': 1}
     class_num = 2
-    seed = 1
     epoch_num = 11
 
     # cudnn setting
@@ -68,7 +67,7 @@ def main(batch_size, lr, seed, save_model, log_interval):
     seed_setting(seed)
 
     # device setting
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
     # print(torch.cuda.current_device())
     print(device)
 
@@ -167,9 +166,11 @@ def main(batch_size, lr, seed, save_model, log_interval):
         train(model, trainloader, criterion, optimizer, epoch, log_interval, device, writer)
         # trainset.close()
         test(model, validloader, criterion, device, writer, epoch, True)
+        print('finish testing')
         # validset.close()
         if save_model:
             torch.save(model.state_dict(), './checkpoints/epoch{}.pth'.format(epoch))
+        print('finish saving epoch{}'.format(epoch))
 
     print('Finish Training, Total Time: {}'.format(time.time()-start))
 
